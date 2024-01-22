@@ -8,7 +8,7 @@ import { Avatar } from "@nextui-org/react";
 
 const Header = ({ user }) => {
 	return <div>
-		<div className="flex items-center justify-around border border-spacing-8 border-t-0 border-l-0 border-r-0 border-b-2 p-1 fixed z-[999] bg-white w-full">
+		<div className="flex items-center justify-around border border-spacing-8 border-t-0 border-l-0 border-r-0 border-b-2 p-1 fixed bg-white w-full z-20">
 			<div>
 				<span className="text-[2rem] flex items-center mr-10">Insta<TbArrowsCross /></span>
 

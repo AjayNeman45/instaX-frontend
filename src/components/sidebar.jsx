@@ -34,7 +34,7 @@ const Sidebar = () => {
     return (
         <div>
             <ProfileCard />
-            <div className='flex flex-col gap-4 border border-b-0 border-t-0 border-l-0 border-r-3 flex-shrink-0 flex-grow-0 w-[20rem] bg-white p-3 rounded-lg fixed z-[999] mt-[5.5rem]'>
+            <div className='flex flex-col gap-4 border border-b-0 border-t-0 border-l-0 border-r-3 flex-shrink-0 flex-grow-0 w-[20rem] bg-white p-3 rounded-lg fixed mt-[5.5rem]'>
                 {
                     categories.map(category => {
                         return (

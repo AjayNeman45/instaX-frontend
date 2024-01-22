@@ -21,7 +21,7 @@ const ShowCommentsModal = ({ isOpen, onOpenChange, comments, user, post, setPost
     return (
         <>
             {/* <Button onPress={onOpen}>Open Modal</Button> */}
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl">
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl" className='z-[999]'>
                 <ModalContent>
                     {(onClose) => (
                         <>

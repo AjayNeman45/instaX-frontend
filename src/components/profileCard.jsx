@@ -6,7 +6,7 @@ const ProfileCard = () => {
 
     const { user } = useAuthContext()
     return (
-        <div className='bg-white flex items-start gap-4 p-3 rounded-lg mb-3 cursor-pointer fixed z-[999] w-[20rem]'>
+        <div className='bg-white flex items-start gap-4 p-3 rounded-lg mb-3 cursor-pointer fixed w-[20rem]'>
             <Avatar src={user?.profilePhoto} />
             <div className='flex flex-col'>
                 <span>{user?.name}</span>
