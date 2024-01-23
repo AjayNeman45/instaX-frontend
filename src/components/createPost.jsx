@@ -54,7 +54,7 @@ const CreatePost = ({ handleUpdatePosts, user }) => {
             }
             const { data: postCreateRes } = await axios.post("/post/create", packet)
             if (postCreateRes.success) {
-                handleUpdatePosts({ ...postCreateRes.data.response, user })
+                handleUpdatePosts({ ...postCreateRes.data.response, user, likes:[], comments:[] })
             }
         } catch (error) {
         }
