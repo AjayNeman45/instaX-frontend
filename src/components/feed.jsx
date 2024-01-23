@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CreatePost from './createPost.jsx'
-import axios from "axios"
+import axios from "../config/axios.config.js"
 import Post from './post.jsx'
 
 const Feed = ({ user }) => {
@@ -15,7 +15,7 @@ const Feed = ({ user }) => {
 
     useEffect(() => {
         (async () => {
-            const { data: result } = await axios.get("http://localhost:3000/api/post/getAllPosts")
+            const { data: result } = await axios.get("/post/getAllPosts")
             if (result.success) setPosts(result.data.response)
         })()
     }, [])
