@@ -25,7 +25,7 @@ const Login = () => {
                 <h2 className="text-2xl font-semibold mb-6">Login to Your Account</h2>
 
                 {/* Username and Password Fields */}
-                <form>
+                <form onSubmit={handleFormSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                             Username
@@ -58,7 +58,6 @@ const Login = () => {
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
-                        onClick={handleFormSubmit}
                     >
                         Login
                     </button>

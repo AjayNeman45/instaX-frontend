@@ -2,8 +2,8 @@
 import axios from "axios"
 
 const instance = axios.create({
-	// baseURL: "http://localhost:3000/api",
-	baseURL: "https://instax.onrender.com/api",
+	baseURL: "http://localhost:3000/api",
+	// baseURL: "https://instax.onrender.com/api",
 	timeout: 10000, // Optional: Set a timeout for requests in milliseconds
 	headers: {
 		"Content-Type": "application/json",

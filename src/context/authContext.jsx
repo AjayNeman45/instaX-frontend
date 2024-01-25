@@ -18,7 +18,7 @@ const AuthContextProvider = ({ children }) => {
 			const { data: loginRes } = await axios.post("/auth/login", formData);
 			if (loginRes.success) {
 				setIsAuthenticated(true);
-				setUser(loginRes.data.response)
+				setUser(loginRes.data.response[0])
 				sessionStorage.setItem('user', JSON.stringify(loginRes.data.response));
 				navigate("/")
 			} else {
@@ -56,7 +56,8 @@ const AuthContextProvider = ({ children }) => {
 		setUser,
 		login,
 		logout,
-		isAuthenticated
+		isAuthenticated,
+		setIsAuthenticated
 	}
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

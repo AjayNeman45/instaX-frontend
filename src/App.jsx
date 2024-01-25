@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import Home from './pages/home.jsx';
 import AuthContextProvider, { useAuthContext } from './context/authContext.jsx';
 import Login from './pages/login.jsx';
+import Profile from './pages/profile.jsx';
 
 
 const ProtectedRoute = ({ children }) => {
@@ -30,6 +31,7 @@ function App() {
 				<AuthContextProvider>
 					<Routes>
 						<Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+						<Route path="/:username" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 						<Route path="/login" element={<LoginRoute><Login /></LoginRoute>} />
 					</Routes>
 				</AuthContextProvider>

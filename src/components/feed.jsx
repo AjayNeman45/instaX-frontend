@@ -3,7 +3,7 @@ import CreatePost from './createPost.jsx'
 import axios from "../config/axios.config.js"
 import Post from './post.jsx'
 
-const Feed = ({ user }) => {
+const Feed = () => {
 
     const [posts, setPosts] = useState([])
 
@@ -21,13 +21,13 @@ const Feed = ({ user }) => {
     }, [])
 
     return (
-        <div className='flex flex-col gap-3 ml-[20rem] w-[40rem]'>
-            <CreatePost handleUpdatePosts={handleUpdatePosts} user={user} />
+        <div className='flex flex-col gap-3 ml-[20rem]'>
+            <CreatePost handleUpdatePosts={handleUpdatePosts} />
             {
                 posts?.map(post => {
                     return (
                         <div key={post?._id}>
-                            <Post post={post} setPosts={setPosts} user={user} />
+                            <Post post={post} setPosts={setPosts} />
                         </div>
                     )
                 })

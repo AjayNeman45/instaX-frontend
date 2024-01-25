@@ -6,9 +6,11 @@ import { MdEmojiEmotions } from "react-icons/md";
 import { IoMdCloseCircle } from "react-icons/io";
 import axios from "../config/axios.config"
 import EmojiPicker from 'emoji-picker-react';
+import { useAuthContext } from '../context/authContext';
 
 
-const CreatePost = ({ handleUpdatePosts, user }) => {
+const CreatePost = ({ handleUpdatePosts }) => {
+    const { user } = useAuthContext()
     const [text, setText] = useState("")
     const [image, setImage] = useState("")
     const [previewUrl, setPreviewUrl] = useState("")
@@ -48,13 +50,13 @@ const CreatePost = ({ handleUpdatePosts, user }) => {
             }
 
             const packet = {
-                userId: "65abe9046eab8fcca19ec840",
+                userId: user?._id,
                 text: text,
                 ...(imageUploadRes ? { image: imageUploadRes.data.url } : null),
             }
             const { data: postCreateRes } = await axios.post("/post/create", packet)
             if (postCreateRes.success) {
-                handleUpdatePosts({ ...postCreateRes.data.response, user, likes:[], comments:[] })
+                handleUpdatePosts({ ...postCreateRes.data.response, user, likes: [], comments: [] })
             }
         } catch (error) {
         }
@@ -66,7 +68,6 @@ const CreatePost = ({ handleUpdatePosts, user }) => {
     }
 
     const handleOnEmojiClick = (e) => {
-
         let emoji = e.emoji
         // Get the current cursor position
         const cursorPosition = textAreaRef.current.selectionStart;
@@ -134,15 +135,14 @@ const CreatePost = ({ handleUpdatePosts, user }) => {
                                 <FaImage size={20} color='purple' style={{ cursor: "pointer" }} />
                             </label>
                             <input id="imageInput" style={{ display: "none" }} onChange={handleImageInputChange} type="file" />
+
                             <MdEmojiEmotions size={23} color='purple' style={{ cursor: "pointer" }} onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
                         </div>
                         <Button color='secondary' isDisabled={text || previewUrl ? false : true} onClick={handleCreatePost}>Post</Button>
                     </div>
                 </div>
-
-
             </div>
-            {showEmojiPicker && <EmojiPicker className="absolute z-[999]" onEmojiClick={handleOnEmojiClick} />}
+            {showEmojiPicker && <EmojiPicker className="absolute z-[999]" onEmojiClick={handleOnEmojiClick} theme='light' />}
         </div>
 
     )

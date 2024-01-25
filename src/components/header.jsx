@@ -4,9 +4,11 @@ import { Input } from "@nextui-org/react"
 import { CiSearch } from "react-icons/ci";
 import { Button } from '@nextui-org/button';
 import { Avatar } from "@nextui-org/react";
+import { useAuthContext } from "../context/authContext";
 
 
-const Header = ({ user }) => {
+const Header = () => {
+	const { user } = useAuthContext()
 	return <div>
 		<div className="flex items-center justify-around border border-spacing-8 border-t-0 border-l-0 border-r-0 border-b-2 p-1 fixed bg-white w-full z-20">
 			<div>
