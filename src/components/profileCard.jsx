@@ -17,7 +17,7 @@ const ProfileCard = () => {
         navigate("/login")
     }
     return (
-        <div className='bg-white flex items-start p-3  gap-4 rounded-lg mb-3 cursor-pointer fixed w-[20rem]' onClick={() => navigate(`/${user?.username}`)} >
+        <div className='bg-white flex items-start p-3  gap-4 rounded-lg mt-3 cursor-pointer w-[20rem]' onClick={() => navigate(`/${user?.username}`)} >
             <Avatar src={user?.profilePhoto} />
             <div className='flex items-center justify-between flex-1'>
                 <div className='flex flex-col'>

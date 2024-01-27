@@ -7,6 +7,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import axios from "../config/axios.config"
 import EmojiPicker from 'emoji-picker-react';
 import { useAuthContext } from '../context/authContext';
+import ButtonSpinnerSvg from '../utils/buttonSpinner';
 
 
 const CreatePost = ({ handleUpdatePosts }) => {
@@ -15,6 +16,7 @@ const CreatePost = ({ handleUpdatePosts }) => {
     const [image, setImage] = useState("")
     const [previewUrl, setPreviewUrl] = useState("")
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const [createPostLoading, setCreatePostLoading] = useState(false)
     const textAreaRef = useRef()
 
     const handleImageInputChange = (e) => {
@@ -38,12 +40,24 @@ const CreatePost = ({ handleUpdatePosts }) => {
     const handleCreatePost = async (e) => {
         e.preventDefault()
         // upload image to firebase storage
+        let temp = {
+            image: image,
+            text: text,
+            previewUrl: previewUrl,
+        }
+        setCreatePostLoading(true)
+        setImage("")
+        setText("")
+        setPreviewUrl("")
+        setShowEmojiPicker(false)
+
         try {
             let imageUploadRes
-            if (image) {
+            if (temp.image) {
                 let data = new FormData()
-                data.append("image", image)
+                data.append("image", temp.image)
 
+                console.log(temp.image)
                 const response = await axios.post("/post/uploadPostImage", data)
                 if (response.data.success)
                     imageUploadRes = response.data
@@ -51,20 +65,18 @@ const CreatePost = ({ handleUpdatePosts }) => {
 
             const packet = {
                 userId: user?._id,
-                text: text,
+                text: temp.text,
                 ...(imageUploadRes ? { image: imageUploadRes.data.url } : null),
             }
             const { data: postCreateRes } = await axios.post("/post/create", packet)
             if (postCreateRes.success) {
-                handleUpdatePosts({ ...postCreateRes.data.response, user, likes: [], comments: [] })
+                handleUpdatePosts({ ...postCreateRes.data.response, user, likes: [], comments: [], saves: [] })
             }
         } catch (error) {
         }
+        setCreatePostLoading(false)
 
-        setImage("")
-        setText("")
-        setPreviewUrl("")
-        setShowEmojiPicker(false)
+
     }
 
     const handleOnEmojiClick = (e) => {
@@ -138,7 +150,17 @@ const CreatePost = ({ handleUpdatePosts }) => {
 
                             <MdEmojiEmotions size={23} color='purple' style={{ cursor: "pointer" }} onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
                         </div>
-                        <Button color='secondary' isDisabled={text || previewUrl ? false : true} onClick={handleCreatePost}>Post</Button>
+                        <Button
+                            isLoading={createPostLoading}
+                            color='secondary'
+                            isDisabled={text || previewUrl ? false : true}
+                            onClick={handleCreatePost}
+                            spinner={
+                                <ButtonSpinnerSvg />
+                            }
+                        >
+                            Post
+                        </Button>
                     </div>
                 </div>
             </div>

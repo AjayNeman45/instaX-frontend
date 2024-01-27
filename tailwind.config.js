@@ -10,6 +10,9 @@ export default {
 	],
 	theme: {
 		extend: {},
+		screens: {
+			btnbg: "var(--btn-bg)",
+		},
 	},
 	darkMode: "class",
 	plugins: [nextui()],

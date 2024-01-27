@@ -5,7 +5,8 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Avata
 const ShowCommentsModal = ({ isOpen, onOpenChange, comments, user, post, setPosts }) => {
     // const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [commentText, setCommentText] = useState("")
-    const handleCreateComment = async () => {
+    const handleCreateComment = async (e) => {
+        if (e.key !== 'Enter') return
         const data = {
             postId: post?._id,
             userId: user?._id,
@@ -62,11 +63,8 @@ const ShowCommentsModal = ({ isOpen, onOpenChange, comments, user, post, setPost
                             <ModalFooter>
                                 <div className='flex items-center gap-3 w-full'>
                                     <Avatar src={user?.profilePhoto} size='md' />
-                                    <Input type="text" value={commentText} onChange={e => setCommentText(e.target.value)} size='sdfsd' placeholder="Write your comment..." />
+                                    <Input type="text" value={commentText} onKeyDown={handleCreateComment} onChange={e => setCommentText(e.target.value)} size='sdfsd' placeholder="Write your comment..." />
                                 </div>
-                                <Button color="primary" onPress={handleCreateComment}>
-                                    Post
-                                </Button>
                             </ModalFooter>
                         </>
                     )}

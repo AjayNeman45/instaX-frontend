@@ -14,20 +14,42 @@ const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = useState()
 	const navigate = useNavigate();
 	const login = async (formData) => {
-		try {
-			const { data: loginRes } = await axios.post("/auth/login", formData);
-			if (loginRes.success) {
-				setIsAuthenticated(true);
-				setUser(loginRes.data.response[0])
-				sessionStorage.setItem('user', JSON.stringify(loginRes.data.response));
-				navigate("/")
-			} else {
-				console.error('Login failed:', response.statusText);
+		return new Promise(async (resolve, reject) => {
+			try {
+				const { data: loginRes } = await axios.post("/auth/login", formData);
+				if (loginRes.success) {
+					setIsAuthenticated(true);
+					setUser(loginRes.data.response[0])
+					sessionStorage.setItem('user', JSON.stringify(loginRes.data.response[0]));
+					navigate("/")
+					resolve()
+				} else {
+					console.log()
+					reject(loginRes.data.error)
+				}
+			} catch (error) {
+				reject(error?.response?.data?.data?.error)
 			}
-		} catch (error) {
-			console.error('Error during login:', error);
-		}
+		})
 	};
+
+	const register = async (formData) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const { data: signUpRes } = await axios.post("/auth/register", formData)
+				if (signUpRes.success) {
+					setIsAuthenticated(true);
+					setUser(signUpRes.data.response[0])
+					sessionStorage.setItem('user', JSON.stringify(signUpRes.data.response[0]));
+					navigate("/")
+				}
+				return resolve()
+			} catch (error) {
+				console.log(error)
+				reject(error?.response?.data?.data?.error)
+			}
+		})
+	}
 
 	const logout = () => {
 		setIsAuthenticated(false);
@@ -57,7 +79,8 @@ const AuthContextProvider = ({ children }) => {
 		login,
 		logout,
 		isAuthenticated,
-		setIsAuthenticated
+		setIsAuthenticated,
+		register
 	}
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
