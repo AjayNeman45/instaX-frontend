@@ -21,7 +21,7 @@ import { LuDot } from "react-icons/lu"
 import { timeAgo } from "../utils/utils.js"
 import { useNavigate } from 'react-router-dom';
 
-const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
+const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
     const { user, setUser } = useAuthContext()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const { isOpen: openImgModal, onOpen: onOpenImgModal, onOpenChange: onOpenImgChange } = useDisclosure();
@@ -78,7 +78,7 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                 save => save?.user_id === user?._id
             )
             if (mySave?.length) {
-                if (handleRemoveUnsavePost) handleRemoveUnsavePost(post?._id)
+                if (handleRemoveUnsavePost && user?._id === openProfileUser?._id) handleRemoveUnsavePost(post?._id)
                 else
                     setPosts(prev =>
                         prev.map(p =>

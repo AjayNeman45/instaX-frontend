@@ -146,7 +146,7 @@ const Profile = () => {
                                 posts?.map((post, index) => {
                                     return (
                                         <div key={index}>
-                                            <Post post={post} setPosts={setPosts} handleRemoveUnsavePost={handleRemoveUnsavePost} />
+                                            <Post post={post} setPosts={setPosts} handleRemoveUnsavePost={handleRemoveUnsavePost} openProfileUser={user} />
                                         </div>
                                     )
                                 })
