@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import axios from "../config/axios.config"
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Avatar, Input } from "@nextui-org/react";
+import { IoSendOutline } from 'react-icons/io5';
 
 const ShowCommentsModal = ({ isOpen, onOpenChange, comments, user, post, setPosts }) => {
     // const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [commentText, setCommentText] = useState("")
     const handleCreateComment = async (e) => {
-        if (e.key !== 'Enter') return
         const data = {
             postId: post?._id,
             userId: user?._id,
@@ -22,7 +22,7 @@ const ShowCommentsModal = ({ isOpen, onOpenChange, comments, user, post, setPost
     return (
         <>
             {/* <Button onPress={onOpen}>Open Modal</Button> */}
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl" className='z-[999]'>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl" className='z-[999] absolute left-[50%] transform translate-x-[-50%] top-[15%]'>
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -63,7 +63,10 @@ const ShowCommentsModal = ({ isOpen, onOpenChange, comments, user, post, setPost
                             <ModalFooter>
                                 <div className='flex items-center gap-3 w-full'>
                                     <Avatar src={user?.profilePhoto} size='md' />
-                                    <Input type="text" value={commentText} onKeyDown={handleCreateComment} onChange={e => setCommentText(e.target.value)} size='sdfsd' placeholder="Write your comment..." />
+                                    <Input type="text" value={commentText} onKeyUp={e => e.code === "Enter" && handleCreateComment()} onChange={e => setCommentText(e.target.value)} size='sdfsd' placeholder="Write your comment..." />
+                                    <div className="cursor-pointer">
+                                        <IoSendOutline onClick={handleCreateComment} />
+                                    </div>
                                 </div>
                             </ModalFooter>
                         </>

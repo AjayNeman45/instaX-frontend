@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from '@nextui-org/react';
+import { Button, Avatar } from '@nextui-org/react';
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 import Sidebar from '../components/sidebar'
 import axios from '../config/axios.config.js';
 import Post from '../components/post.jsx';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuthContext } from '../context/authContext.jsx';
 import { BsPostcardHeart } from "react-icons/bs";
+import { BiArrowBack } from "react-icons/bi";
 
 
 const Profile = () => {
@@ -81,47 +82,51 @@ const Profile = () => {
     return (
         <div className='bg-purple-100 min-h-screen p-4'>
             <Sidebar />
+
+
+            <Link to="/">
+                <BiArrowBack size={30} className='hidden profilePagebackButtin cursor-pointer' />
+            </Link>
+
             {/* personal info */}
-            <div className='ml-[20.7rem] bg-white mr-[20.7rem] mt-[2.7rem] p-3 rounded-lg personalInfo'>
-                <div className='flex items-start justify-center gap-10'>
-                    <div className="flex flex-col items-center">
-                        <img src={user?.profilePhoto} alt="profilePhoto" className='w-[100px] h-[100px] rounded-[50%] object-cover' />
-                        <div className='flex flex-col'>
-                            <span>{user?.name}</span>
-                            <span className='text-gray-400'>@{user?.username}</span>
-                        </div>
+            <div className='ml-[20.7rem] bg-white mr-[20.7rem] mt-[2.7rem] p-3 rounded-lg personalInfo flex flex-wrap items-start justify-center gap-10'>
+                <div className="flex flex-col items-center">
+                    <Avatar src={user?.profilePhoto} className='w-[100px] h-[100px] rounded-[50%] object-cover' />
+                    <div className='flex flex-col'>
+                        <span>{user?.name}</span>
+                        <span className='text-gray-400'>@{user?.username}</span>
                     </div>
-                    <div className='flex flex-col items-start gap-2'>
-                        {
-                            user?._id === loggedInUser?._id ?
-                                <div className='flex items-center gap-3'>
-                                    <Button onClick={handleUnfollowUser} className='text-[#8C28E3] text-[15px] bg-white border border-[#8C28E3]' size='sm' radius='md'>Edit Profile</Button>
-                                </div>
-                                :
-                                <div>
-                                    {
-                                        loggedInUser?.followings?.includes(user?._id)
-                                            ? <Button onClick={handleUnfollowUser} className='text-[#8C28E3] text-[15px] bg-white border border-[#8C28E3]' size='sm' radius='md'>Unfollow</Button>
-                                            : <Button onClick={handleFollowUser} className='text-[#8C28E3] text-[15px] bg-white border border-[#8C28E3]' size='sm' radius='md'>Follow</Button>
-                                    }
-
-                                </div>
-                        }
-
-                        <div className='flex items-center gap-2'>
-                            <div>
-                                <span className='font-semibold text-lg mr-2'>{user?.followers?.length}</span>
-                                <span>followers</span>
+                </div>
+                <div className='flex flex-col items-start gap-2 personalInfo_stats'>
+                    {
+                        user?._id === loggedInUser?._id ?
+                            <div className='flex items-center gap-3'>
+                                <Button onClick={handleUnfollowUser} className='text-[#8C28E3] text-[15px] bg-white border border-[#8C28E3]' size='sm' radius='md'>Edit Profile</Button>
                             </div>
+                            :
                             <div>
-                                <span className='font-semibold text-lg mr-2'>{user?.followings?.length}</span>
-                                <span>followings</span>
+                                {
+                                    loggedInUser?.followings?.includes(user?._id)
+                                        ? <Button onClick={handleUnfollowUser} className='text-[#8C28E3] text-[15px] bg-white border border-[#8C28E3]' size='sm' radius='md'>Unfollow</Button>
+                                        : <Button onClick={handleFollowUser} className='text-[#8C28E3] text-[15px] bg-white border border-[#8C28E3]' size='sm' radius='md'>Follow</Button>
+                                }
+
                             </div>
+                    }
+
+                    <div className='flex items-center gap-2'>
+                        <div>
+                            <span className='font-semibold text-lg mr-2'>{user?.followers?.length}</span>
+                            <span>followers</span>
                         </div>
                         <div>
-                            <p className='w-[25rem]'>{user?.description}</p>
-                            <span className='flex items-center gap-2 text-gray-400'><FaRegCalendarAlt /> Joined {new Date(user?.createdAt).toLocaleString("en-US", { timeZone: "Asia/Kolkata", month: "short", year: "numeric" })}</span>
+                            <span className='font-semibold text-lg mr-2'>{user?.followings?.length}</span>
+                            <span>followings</span>
                         </div>
+                    </div>
+                    <div>
+                        <p className='max-w-[25rem]'>{user?.description}</p>
+                        <span className='flex items-center gap-2 text-gray-400'><FaRegCalendarAlt /> Joined {new Date(user?.createdAt).toLocaleString("en-US", { timeZone: "Asia/Kolkata", month: "short", year: "numeric" })}</span>
                     </div>
                 </div>
             </div>

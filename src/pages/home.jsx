@@ -23,7 +23,7 @@ const Home = () => {
 
     return (
         <>
-            <div className=' bg-purple-100 p-4 min-h-[100vh]  h-fit relative'>
+            <div className=' bg-purple-100 p-4 min-h-[100vh] h-fit relative'>
                 <div className='header_for_phone hidden'>
                     <User
                         name={user?.name}
@@ -37,8 +37,8 @@ const Home = () => {
                         }}
                         className='bg-white p-2'
                     />
-                    <div className='bg-white p-2 rounded-md flex items-center gap-2 cursor-pointer' >
-                        <AiOutlineLogout onClick={handleLogout} />
+                    <div className='bg-white p-2 rounded-md flex items-center gap-2 cursor-pointer' onClick={handleLogout}>
+                        <AiOutlineLogout />
                         <span className='text-sm'>Logout</span>
                     </div>
                 </div>

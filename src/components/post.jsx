@@ -124,35 +124,34 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
     }
 
     const handleAddCommentOnPost = async () => {
-        console.log("form submited")
-        // const data = {
-        //     postId: post?._id,
-        //     userId: user?._id,
-        //     comment: commentText,
-        // }
-        // setCommentText("")
-        // const { data: addCommentRes } = await axios.post(
-        //     "/post/comment/create",
-        //     data
-        // )
-        // if (addCommentRes?.success) {
-        //     setPosts(prev =>
-        //         prev.map(p =>
-        //             p._id === post._id
-        //                 ? {
-        //                     ...p,
-        //                     comments: [
-        //                         {
-        //                             ...addCommentRes.data.response,
-        //                             user,
-        //                         },
-        //                         ...p.comments,
-        //                     ],
-        //                 }
-        //                 : p
-        //         )
-        //     )
-        // }
+        const data = {
+            postId: post?._id,
+            userId: user?._id,
+            comment: commentText,
+        }
+        setCommentText("")
+        const { data: addCommentRes } = await axios.post(
+            "/post/comment/create",
+            data
+        )
+        if (addCommentRes?.success) {
+            setPosts(prev =>
+                prev.map(p =>
+                    p._id === post._id
+                        ? {
+                            ...p,
+                            comments: [
+                                {
+                                    ...addCommentRes.data.response,
+                                    user,
+                                },
+                                ...p.comments,
+                            ],
+                        }
+                        : p
+                )
+            )
+        }
     }
 
     const handleUnfollowUser = async () => {
@@ -258,19 +257,16 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                         />
                     )}
                     <div className='w-full flex items-center justify-between my-3'>
-                        <div className='flex flex-col items-center gap-2'>
+                        <div className='flex flex-wrap items-center gap-1 justify-center' onClick={onOpen}>
                             <FaRegComment
                                 color='gray'
                                 style={{ cursor: "pointer" }}
                             />
-                            <span
-                                className='text-sm cursor-pointer'
-                                onClick={onOpen}
-                            >
-                                {post.comments && post.comments.length} Comments
+                            <span className='text-sm cursor-pointer'>
+                                {post.comments && post.comments.length}
                             </span>
                         </div>
-                        <div className='flex flex-col items-center gap-2'>
+                        <div className='flex flex-wrap items-center justify-center gap-1'>
                             {post?.likes?.filter(
                                 like => like?.user_id === user?._id
                             )?.length ? (
@@ -288,19 +284,19 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                             )}
 
                             <span className='text-sm cursor-pointer'>
-                                {post.likes && post.likes.length} Likes
+                                {post.likes && post.likes.length}
                             </span>
                         </div>
-                        <div className='flex flex-col items-center gap-2'>
+                        <div className='flex flex-wrap items-center justify-center gap-1'>
                             <IoShareSocialOutline
                                 color='gray'
                                 style={{ cursor: "pointer" }}
                             />
                             <span className='text-sm cursor-pointer'>
-                                24 Share
+                                24
                             </span>
                         </div>
-                        <div className='flex flex-col items-center gap-2'>
+                        <div className='flex flex-wrap items-center justify-center gap-1'>
                             {post?.saves?.filter(
                                 save => save?.user_id === user?._id
                             )?.length ? (
@@ -317,7 +313,7 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                                 />
                             )}
                             <span className='text-sm cursor-pointer'>
-                                {post.saves && post.saves.length} Saved
+                                {post.saves && post.saves.length}
                             </span>
                         </div>
                     </div>
@@ -355,15 +351,14 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
 
 
             {/* image modal   */}
-            <div className="absolute left-0 right-0 m-auto">
-                <Modal isOpen={openImgModal} onOpenChange={onOpenImgChange} size="3xl">
-                    <ModalContent>
-                        <ModalBody>
-                            <img src={post?.image} alt="postImage" className="object-cover max-h-screen" />
-                        </ModalBody>
-                    </ModalContent>
-                </Modal>
-            </div>
+
+            <Modal isOpen={openImgModal} onOpenChange={onOpenImgChange} size="3xl" className="absolute left-[50%] transform translate-x-[-50%] top-[15%]">
+                <ModalContent>
+                    <ModalBody>
+                        <img src={post?.image} alt="postImage" className="object-cover max-h-screen" />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </>
     )
 }

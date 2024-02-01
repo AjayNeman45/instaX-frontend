@@ -29,6 +29,18 @@ const Login = () => {
         }
         setFormSubmitLoading(false)
     };
+
+    const handleLoginAsGuest = async () => {
+        setFormData({ username: "guest", password: "guest123" })
+        setFormSubmitLoading(true)
+        try {
+            await login({ username: "guest", password: "guest123" })
+        } catch (error) {
+            toast(error)
+        }
+        setFormSubmitLoading(false)
+    }
+
     return (
         <>
             <div className="min-h-screen flex flex-col gap-4 items-center justify-center bg-gray-100">
@@ -77,15 +89,10 @@ const Login = () => {
                         >
                             Login
                         </Button>
+
+                        <Button className="w-full focus:outline-none focus:shadow-outline-blue text-lg" onClick={handleLoginAsGuest}>Login as guest</Button>
                         <span className='flex items-center gap-2 justify-center'>Don't have an account? <Link className='text-blue-400 font-bold' to="/register">Sign up</Link></span>
                     </form>
-                </div>
-
-                <div className='flex flex-col items-start bg-red-200 w-full max-w-md text-red-800 p-3 rounded-md'>
-                    <span>Testing credentials</span>
-                    <span>username: IamAj123</span>
-                    <span>password: 123</span>
-                    <span>Note: Please don't spam in the application</span>
                 </div>
             </div>
 
