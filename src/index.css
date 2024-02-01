@@ -23,5 +23,11 @@ body {
 	.suggestion {
 		display: none;
 	}
+
+	.header_for_phone {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
 }
 

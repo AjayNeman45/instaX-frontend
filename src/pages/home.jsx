@@ -24,7 +24,7 @@ const Home = () => {
     return (
         <>
             <div className=' bg-purple-100 p-4 min-h-[100vh]  h-fit relative'>
-                <div className='flex items-center justify-between'>
+                <div className='header_for_phone hidden'>
                     <User
                         name={user?.name}
                         description={(
