@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Avatar, Tooltip } from "@nextui-org/react"
+import { Avatar, Tooltip, Button } from "@nextui-org/react"
 import { FaRegComment } from "react-icons/fa"
 import {
     IoHeartOutline,
@@ -7,10 +7,11 @@ import {
     IoShareSocialOutline,
     IoBookmarkOutline,
     IoBookmarkSharp,
+    IoSendOutline
 } from "react-icons/io5"
 
 import { Input } from "@nextui-org/react"
-import { Modal, ModalContent, ModalBody, ModalHeader, ModalFooter, useDisclosure } from "@nextui-org/react"
+import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/react"
 
 import axios from "../config/axios.config"
 import ShowCommentsModal from "./showCommentsModal.jsx"
@@ -122,37 +123,36 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
         } catch (error) { }
     }
 
-    const handleCommentInputKey = async e => {
-        if (e.code === "Enter") {
-            const data = {
-                postId: post?._id,
-                userId: user?._id,
-                comment: commentText,
-            }
-            setCommentText("")
-            const { data: addCommentRes } = await axios.post(
-                "/post/comment/create",
-                data
-            )
-            if (addCommentRes?.success) {
-                setPosts(prev =>
-                    prev.map(p =>
-                        p._id === post._id
-                            ? {
-                                ...p,
-                                comments: [
-                                    {
-                                        ...addCommentRes.data.response,
-                                        user,
-                                    },
-                                    ...p.comments,
-                                ],
-                            }
-                            : p
-                    )
-                )
-            }
-        }
+    const handleAddCommentOnPost = async () => {
+        console.log("form submited")
+        // const data = {
+        //     postId: post?._id,
+        //     userId: user?._id,
+        //     comment: commentText,
+        // }
+        // setCommentText("")
+        // const { data: addCommentRes } = await axios.post(
+        //     "/post/comment/create",
+        //     data
+        // )
+        // if (addCommentRes?.success) {
+        //     setPosts(prev =>
+        //         prev.map(p =>
+        //             p._id === post._id
+        //                 ? {
+        //                     ...p,
+        //                     comments: [
+        //                         {
+        //                             ...addCommentRes.data.response,
+        //                             user,
+        //                         },
+        //                         ...p.comments,
+        //                     ],
+        //                 }
+        //                 : p
+        //         )
+        //     )
+        // }
     }
 
     const handleUnfollowUser = async () => {
@@ -191,10 +191,6 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
 
     const handleNaviagateToProfile = () => {
         navigate(`/${post?.user?.username}`)
-    }
-
-    const handleOpenPostImgOnModal = () => {
-
     }
 
     return (
@@ -262,7 +258,7 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                         />
                     )}
                     <div className='w-full flex items-center justify-between my-3'>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex flex-col items-center gap-2'>
                             <FaRegComment
                                 color='gray'
                                 style={{ cursor: "pointer" }}
@@ -274,7 +270,7 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                                 {post.comments && post.comments.length} Comments
                             </span>
                         </div>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex flex-col items-center gap-2'>
                             {post?.likes?.filter(
                                 like => like?.user_id === user?._id
                             )?.length ? (
@@ -295,7 +291,7 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                                 {post.likes && post.likes.length} Likes
                             </span>
                         </div>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex flex-col items-center gap-2'>
                             <IoShareSocialOutline
                                 color='gray'
                                 style={{ cursor: "pointer" }}
@@ -304,7 +300,7 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
                                 24 Share
                             </span>
                         </div>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex flex-col items-center gap-2'>
                             {post?.saves?.filter(
                                 save => save?.user_id === user?._id
                             )?.length ? (
@@ -328,14 +324,19 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost }) => {
 
                     <div className='flex items-center gap-3'>
                         <Avatar src={user?.profilePhoto} size='md' />
-                        <Input
-                            type='email'
-                            size='sdfsd'
-                            value={commentText}
-                            onChange={e => setCommentText(e.target.value)}
-                            onKeyUp={handleCommentInputKey}
-                            placeholder='Write your comment...'
-                        />
+                        <div className="w-full flex items-center gap-2">
+                            <Input
+                                type='text'
+                                size='sdfsd'
+                                value={commentText}
+                                onChange={e => setCommentText(e.target.value)}
+                                onKeyUp={e => e.code === "Enter" && handleAddCommentOnPost()}
+                                placeholder='Write your comment...'
+                            />
+                            <div className="cursor-pointer">
+                                <IoSendOutline onClick={handleAddCommentOnPost} />
+                            </div>
+                        </div>
                         {/* <MdEmojiEmotions size={23} color="purple" style={{ cursor: "pointer" }} onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
                             {
                                 showEmojiPicker && <EmojiPicker className="absolute right-2" theme='light' searchDisabled="true" suggestedEmojisMode='false' />

@@ -11,7 +11,8 @@ const Login = () => {
         username: '',
         password: '',
     });
-    const { user, setUser, login } = useAuthContext()
+    const [formSubmitLoading, setFormSubmitLoading] = useState(false)
+    const { login } = useAuthContext()
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -20,12 +21,13 @@ const Login = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        setFormSubmitLoading(true)
         try {
             await login(formData)
         } catch (error) {
-            console.log(error)
             toast(error)
         }
+        setFormSubmitLoading(false)
     };
     return (
         <>
@@ -68,6 +70,7 @@ const Login = () => {
 
                         {/* Login Button */}
                         <Button
+                            isLoading={formSubmitLoading}
                             color="secondary"
                             type="submit"
                             className="w-full focus:outline-none focus:shadow-outline-blue text-lg font-semibold"

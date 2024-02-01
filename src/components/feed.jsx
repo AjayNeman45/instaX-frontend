@@ -4,39 +4,40 @@ import axios from "../config/axios.config.js"
 import Post from './post.jsx'
 import "../index.css"
 
-const Feed = () => {
+const
+    Feed = () => {
 
-    const [posts, setPosts] = useState([])
+        const [posts, setPosts] = useState([])
 
-    const handleUpdatePosts = (data) => {
-        setPosts(prevPosts => {
-            return [data, ...prevPosts]
-        })
-    }
+        const handleUpdatePosts = (data) => {
+            setPosts(prevPosts => {
+                return [data, ...prevPosts]
+            })
+        }
 
-    useEffect(() => {
-        (async () => {
-            const { data: result } = await axios.get("/post/getAllPosts")
-            if (result.success) setPosts(result.data.response)
-        })()
-    }, [])
+        useEffect(() => {
+            (async () => {
+                const { data: result } = await axios.get("/post/getAllPosts")
+                if (result.success) setPosts(result.data.response)
+            })()
+        }, [])
 
-    return (
-        <div className='ml-[20.7rem] mr-[20.7rem] mt-[2.7rem] flex-1 feed'>
-            <div className='flex flex-col gap-3'>
-                <CreatePost handleUpdatePosts={handleUpdatePosts} />
-                {
-                    posts?.map(post => {
-                        return (
-                            <div key={post?._id}>
-                                <Post post={post} setPosts={setPosts} />
-                            </div>
-                        )
-                    })
-                }
+        return (
+            <div className='ml-[20.7rem] mr-[20.7rem] mt-[2.7rem] flex-1 feed'>
+                <div className='flex flex-col gap-3'>
+                    <CreatePost handleUpdatePosts={handleUpdatePosts} />
+                    {
+                        posts?.map(post => {
+                            return (
+                                <div key={post?._id}>
+                                    <Post post={post} setPosts={setPosts} />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
 
 export default Feed
