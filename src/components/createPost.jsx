@@ -5,9 +5,9 @@ import { FaImage } from "react-icons/fa6";
 import { MdEmojiEmotions } from "react-icons/md";
 import { IoMdCloseCircle } from "react-icons/io";
 import axios from "../config/axios.config"
-import EmojiPicker from 'emoji-picker-react';
 import { useAuthContext } from '../context/authContext';
 import ButtonSpinnerSvg from '../utils/buttonSpinner';
+import MyEmojiPicker from './myEmojiPicker';
 
 
 const CreatePost = ({ handleUpdatePosts }) => {
@@ -102,6 +102,10 @@ const CreatePost = ({ handleUpdatePosts }) => {
 
     }
 
+    const handleEmojiPicket = (e) => {
+        setShowEmojiPicker(!showEmojiPicker)
+    }
+
     return (
         <div className='relative'>
             <div className='flex items-start gap-4 bg-white rounded-lg p-3 z-auto'>
@@ -148,7 +152,9 @@ const CreatePost = ({ handleUpdatePosts }) => {
                             </label>
                             <input id="imageInput" style={{ display: "none" }} onChange={handleImageInputChange} type="file" />
 
-                            <MdEmojiEmotions size={23} color='purple' style={{ cursor: "pointer" }} onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
+                            <MyEmojiPicker onClickEmoji={handleOnEmojiClick}>
+                                <MdEmojiEmotions size={23} color='purple' style={{ cursor: "pointer" }} onClick={handleEmojiPicket} />
+                            </MyEmojiPicker>
                         </div>
                         <Button
                             isLoading={createPostLoading}
@@ -164,9 +170,7 @@ const CreatePost = ({ handleUpdatePosts }) => {
                     </div>
                 </div>
             </div>
-            {showEmojiPicker && <EmojiPicker className="absolute z-[999]" onEmojiClick={handleOnEmojiClick} theme='light' />}
         </div>
-
     )
 }
 
