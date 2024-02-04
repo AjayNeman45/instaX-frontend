@@ -87,7 +87,8 @@ const Login = () => {
                             type="submit"
                             className="w-full focus:outline-none focus:shadow-outline-blue text-lg font-semibold"
                         >
-                            Login
+                            {formSubmitLoading ? "It's on free hosting. hold on..!" : "Login"}
+
                         </Button>
 
                         <Button className="w-full focus:outline-none focus:shadow-outline-blue text-lg" onClick={handleLoginAsGuest}>Login as guest</Button>
