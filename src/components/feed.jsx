@@ -8,7 +8,7 @@ import PostSkeleton from './skeleton.jsx'
 const Feed = () => {
 
     const [posts, setPosts] = useState([])
-    const [postLoading, setPostLoading] = useState(true)
+    const [postLoading, setPostLoading] = useState(false)
 
     const handleUpdatePosts = (data) => {
         setPosts(prevPosts => {
@@ -25,7 +25,7 @@ const Feed = () => {
             } catch (error) {
 
             }
-            setPostLoading(true)
+            setPostLoading(false)
         }
         fetchPosts()
     }, [])
