@@ -9,6 +9,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuthContext } from '../context/authContext.jsx';
 import { BsPostcardHeart } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
+import PostSkeleton from '../components/skeleton.jsx';
 
 
 const Profile = () => {
@@ -16,6 +17,8 @@ const Profile = () => {
     const { user: loggedInUser, setUser: setLoggedInUser } = useAuthContext()
     const [user, setUser] = useState(null)
     const [posts, setPosts] = useState([])
+    const [postLoading, setPostLoading] = useState(true)
+
 
     const navigate = useNavigate()
     const { username, action } = useParams();
@@ -31,6 +34,7 @@ const Profile = () => {
     useEffect(() => {
         (async () => {
             if (user) {
+                setPostLoading(true)
                 const path = window.location.pathname
                 if (path.includes("/saved")) {
                     const { data: getPostRes } = await axios.get(`/post/getSavedPostByUserId/${user?._id}`)
@@ -39,6 +43,7 @@ const Profile = () => {
                     const { data: getPostRes } = await axios.get(`/post/getPostByUserId/${user?._id}`)
                     setPosts(getPostRes.data.response)
                 }
+                setPostLoading(false)
             }
         })()
     }, [user, action])
@@ -89,7 +94,7 @@ const Profile = () => {
             </Link>
 
             {/* personal info */}
-            <div className='ml-[20.7rem] bg-white mr-[20.7rem] mt-[2.7rem] p-3 rounded-lg personalInfo flex flex-wrap items-start justify-center gap-10'>
+            <div className='ml-[23.7rem] bg-white mr-[23.7rem] mt-[2.7rem] p-3 rounded-lg personalInfo flex flex-wrap items-start justify-center gap-10'>
                 <div className="flex flex-col items-center">
                     <Avatar src={user?.profilePhoto} className='w-[100px] h-[100px] rounded-[50%] object-cover' />
                     <div className='flex flex-col'>
@@ -125,14 +130,14 @@ const Profile = () => {
                         </div>
                     </div>
                     <div>
-                        <p className='max-w-[25rem]'>{user?.description}</p>
+                        <p className='max-w-[20rem]'>{user?.description}</p>
                         <span className='flex items-center gap-2 text-gray-400'><FaRegCalendarAlt /> Joined {new Date(user?.createdAt).toLocaleString("en-US", { timeZone: "Asia/Kolkata", month: "short", year: "numeric" })}</span>
                     </div>
                 </div>
             </div>
 
             {/* post related info  */}
-            <div className='ml-[20.7rem] mr-[20.7rem] postInfo'>
+            <div className='ml-[23.7rem] mr-[23.7rem] postInfo'>
                 <div className='flex items-center m-auto justify-center gap-5 bg-white w-fit px-2 py-1 rounded-full my-2'>
                     <span onClick={() => navigate(`/${username}`)} className={`transition ease-in-out duration-1000 transform ${!path.includes("/saved") ? 'bg-[#8C28E3] px-2 py-1 text-white rounded-full' : 'text-gray-400 hover:text-gray-600'} cursor-pointer text-sm`}>POSTS</span>
                     <span onClick={() => navigate(`/${username}/saved`)} className={`transition ease-in-out duration-1000 transform ${path.includes("/saved") ? 'bg-[#8C28E3] px-2 py-1 text-white rounded-full' : 'text-gray-400 hover:text-gray-600'} cursor-pointer text-sm`}>SAVED</span>
@@ -140,23 +145,24 @@ const Profile = () => {
 
 
                 {
-                    posts?.length ?
-                        <div className='flex flex-col gap-3'>
-                            {
-                                posts?.map((post, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <Post post={post} setPosts={setPosts} handleRemoveUnsavePost={handleRemoveUnsavePost} openProfileUser={user} />
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        : <div className='flex flex-col items-center bg-white p-3 rounded-md'>
-                            <BsPostcardHeart size={30} />
-                            <h1 className='text-2xl'>{path.includes("/saved") ? "Saved" : "Share"} photos</h1>
-                            <span>When you {path.includes("/saved") ? "saved" : "share"} photos, they will appear on your profile.</span>
-                        </div>
+                    postLoading ? <PostSkeleton count={2} /> :
+                        posts?.length ?
+                            <div className='flex flex-col gap-3'>
+                                {
+                                    posts?.map((post, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <Post post={post} setPosts={setPosts} handleRemoveUnsavePost={handleRemoveUnsavePost} openProfileUser={user} />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            : <div className='flex flex-col items-center bg-white p-3 rounded-md'>
+                                <BsPostcardHeart size={30} />
+                                <h1 className='text-2xl'>{path.includes("/saved") ? "Saved" : "Share"} photos</h1>
+                                <span>When you {path.includes("/saved") ? "saved" : "share"} photos, they will appear on your profile.</span>
+                            </div>
                 }
 
 
