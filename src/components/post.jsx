@@ -12,6 +12,7 @@ import {
 
 import { Input } from "@nextui-org/react"
 import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/react"
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import axios from "../config/axios.config"
 import ShowCommentsModal from "./showCommentsModal.jsx"
@@ -249,12 +250,12 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
                     <p className='my-2 whitespace-pre-line'>{post.text}</p>
 
                     {post.image && (
-                        <img
+                        <LazyLoadImage
                             src={post.image}
                             alt='Avatar'
                             className='w-full h-auto max-h-100 object-cover rounded-2xl'
                             onClick={onOpenImgModal}
-                            loading="lazy"
+                            effect="blur"
                         />
                     )}
                     <div className='w-full flex items-center justify-between my-3'>
