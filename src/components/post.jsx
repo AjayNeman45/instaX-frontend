@@ -249,14 +249,16 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
                     </div>
                     <p className='my-2 whitespace-pre-line'>{post.text}</p>
 
-                    {post.image && (
-                        <LazyLoadImage
-                            src={post.image}
-                            alt='Avatar'
-                            className='w-full h-auto max-h-100 object-cover rounded-2xl'
-                            onClick={onOpenImgModal}
-                        />
-                    )}
+                    <div className="w-full h-auto max-h-100 bg-red-100">
+                        {post.image && (
+                            <LazyLoadImage
+                                src={post.image}
+                                alt='Avatar'
+                                className='w-full h-auto max-h-100 object-cover rounded-2xl'
+                                onClick={onOpenImgModal}
+                            />
+                        )}
+                    </div>
                     <div className='w-full flex items-center justify-between my-3'>
                         <div className='flex flex-wrap items-center gap-1 justify-center' onClick={onOpen}>
                             <FaRegComment
