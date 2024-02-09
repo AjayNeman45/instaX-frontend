@@ -255,7 +255,6 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
                             alt='Avatar'
                             className='w-full h-auto max-h-100 object-cover rounded-2xl'
                             onClick={onOpenImgModal}
-                            effect="blur"
                         />
                     )}
                     <div className='w-full flex items-center justify-between my-3'>
