@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Avatar, Tooltip, Button } from "@nextui-org/react"
+import { Avatar, Tooltip } from "@nextui-org/react"
 import { FaRegComment } from "react-icons/fa"
 import {
     IoHeartOutline,
@@ -11,8 +11,9 @@ import {
 } from "react-icons/io5"
 
 import { Input } from "@nextui-org/react"
-import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/react"
+import { useDisclosure } from "@nextui-org/react"
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import axios from "../config/axios.config"
 import ShowCommentsModal from "./showCommentsModal.jsx"
@@ -25,7 +26,6 @@ import { useNavigate } from 'react-router-dom';
 const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
     const { user, setUser } = useAuthContext()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-    const { isOpen: openImgModal, onOpen: onOpenImgModal, onOpenChange: onOpenImgChange } = useDisclosure();
 
     const [commentText, setCommentText] = useState("")
     const navigate = useNavigate()
@@ -249,16 +249,15 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
                     </div>
                     <p className='my-2 whitespace-pre-line'>{post.text}</p>
 
-                    <div className="w-full h-auto max-h-100 bg-red-100">
-                        {post.image && (
-                            <LazyLoadImage
-                                src={post.image}
-                                alt='Avatar'
-                                className='w-full h-auto max-h-100 object-cover rounded-2xl'
-                                onClick={onOpenImgModal}
-                            />
-                        )}
-                    </div>
+                    {
+                        post.image && <LazyLoadImage
+                            src={post?.image}
+                            placeholderSrc={post?.image}
+                            effect="blur"
+                            alt='Avatar'
+                            className="object-cover rounded-2xl w-full"
+                        />
+                    }
                     <div className='w-full flex items-center justify-between my-3'>
                         <div className='flex flex-wrap items-center gap-1 justify-center' onClick={onOpen}>
                             <FaRegComment
@@ -322,8 +321,8 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
                     </div>
 
                     <div className='flex items-center gap-3'>
-                        <Avatar src={user?.profilePhoto} size='md' />
-                        <div className="w-full flex items-center gap-2">
+                        <Avatar src={user?.profilePhoto} size='md' className="flex-0" />
+                        <div className="w-full flex-1 flex items-center gap-2">
                             <Input
                                 type='text'
                                 size='sdfsd'
@@ -351,17 +350,6 @@ const Post = ({ post, setPosts, handleRemoveUnsavePost, openProfileUser }) => {
                 post={post}
                 setPosts={setPosts}
             />
-
-
-            {/* image modal   */}
-
-            <Modal isOpen={openImgModal} onOpenChange={onOpenImgChange} size="3xl" className="absolute left-[50%] transform translate-x-[-50%] top-[15%]">
-                <ModalContent>
-                    <ModalBody>
-                        <img src={post?.image} alt="postImage" className="object-cover max-h-screen" />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
         </>
     )
 }

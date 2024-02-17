@@ -39,6 +39,9 @@ const CreatePost = ({ handleUpdatePosts }) => {
 
     const handleCreatePost = async (e) => {
         e.preventDefault()
+
+        const previewImg = document.getElementById("previewImg")
+
         // upload image to firebase storage
         let temp = {
             image: image,
@@ -56,8 +59,6 @@ const CreatePost = ({ handleUpdatePosts }) => {
             if (temp.image) {
                 let data = new FormData()
                 data.append("image", temp.image)
-
-                console.log(temp.image)
                 const response = await axios.post("/post/uploadPostImage", data)
                 if (response.data.success)
                     imageUploadRes = response.data
@@ -75,8 +76,6 @@ const CreatePost = ({ handleUpdatePosts }) => {
         } catch (error) {
         }
         setCreatePostLoading(false)
-
-
     }
 
     const handleOnEmojiClick = (e) => {
@@ -138,8 +137,9 @@ const CreatePost = ({ handleUpdatePosts }) => {
                             </button>
                             <img
                                 src={previewUrl}
+                                id="previewImg"
                                 alt="Preview"
-                                className="w-full h-auto max-h-100 object-cover rounded-md"
+                                className="w-full h-auto object-cover rounded-md"
                             />
                         </div>
                     }

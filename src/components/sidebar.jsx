@@ -2,9 +2,6 @@ import React from 'react'
 import { PiSquaresFourFill } from "react-icons/pi";
 import { BiSolidVideos, BiMessageSquareDetail } from "react-icons/bi";
 import ProfileCard from './profileCard';
-import { RiUserFollowLine } from "react-icons/ri";
-import { SlUserFollowing } from "react-icons/sl";
-import { SiEbox } from "react-icons/si";
 import { AiOutlineNotification } from "react-icons/ai";
 import { RiProfileLine } from "react-icons/ri";
 
@@ -35,18 +32,18 @@ const categories = [
     //     path: "/followings",
     //     logo: SlUserFollowing
     // },
-    {
-        id: 4,
-        name: "Messages",
-        path: "/",
-        logo: BiMessageSquareDetail
-    },
-    {
-        id: 5,
-        name: "Notifications",
-        path: "/",
-        logo: AiOutlineNotification
-    },
+    // {
+    //     id: 4,
+    //     name: "Messages",
+    //     path: "/",
+    //     logo: BiMessageSquareDetail
+    // },
+    // {
+    //     id: 5,
+    //     name: "Notifications",
+    //     path: "/",
+    //     logo: AiOutlineNotification
+    // },
     {
         id: 6,
         name: "Profile",
@@ -92,7 +89,7 @@ const Sidebar = () => {
     return (
         <div className='fixed left-4 w-[20rem] sidebar'>
             <div className='mb-3'>
-                <img src={logo} alt="logo" className='w-[120px]' onClick={() => navigate("/")} />
+                <img src={logo} alt="logo" width={120} height={0} onClick={() => navigate("/")} />
                 {/* <span className="text-[2rem] flex items-center mr-10">Insta<TbArrowsCross /></span> */}
             </div>
             <div className='flex flex-col gap-4 flex-shrink-0 flex-grow-0 w-[20rem] bg-white p-3 rounded-lg'>
