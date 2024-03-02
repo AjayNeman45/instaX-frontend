@@ -3,7 +3,8 @@ import axios from "axios"
 
 const instance = axios.create({
 	// baseURL: "http://localhost:3000/api",
-	baseURL: "https://instax.onrender.com/api",
+	// baseURL: "https://instax.onrender.com/api",
+	baseURL: "https://instax-backend-production.up.railway.app/api",
 	headers: {
 		"Content-Type": "application/json",
 		// You can add other common headers here if needed
